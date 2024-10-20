@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:newsly/news.dart';
-import 'package:newsly/utils.dart';
+import 'package:newsly/shared/domain/entities/news.dart';
+import 'package:newsly/core/utils/utils.dart';
 
 class FavoriteNewsPage extends StatefulWidget {
   const FavoriteNewsPage({super.key});

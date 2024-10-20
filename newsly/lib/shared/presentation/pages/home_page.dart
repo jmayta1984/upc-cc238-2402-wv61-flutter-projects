@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:newsly/favorite_news_page.dart';
-import 'package:newsly/search_news_page.dart';
+import 'package:newsly/features/favorites/presentation/pages/favorite_news_page.dart';
+import 'package:newsly/features/news/presentation/pages/search_news_page.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomePage extends StatefulWidget {
+
+  const HomePage({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = const [SearchNewsPage(), FavoriteNewsPage()];
@@ -23,10 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Newsly'),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
+         bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(
@@ -35,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         onTap: _onTapPressed,
       ),
-      body: _pages[_selectedIndex],
+      body: SafeArea(child: _pages[_selectedIndex]),
     );
   }
 }
