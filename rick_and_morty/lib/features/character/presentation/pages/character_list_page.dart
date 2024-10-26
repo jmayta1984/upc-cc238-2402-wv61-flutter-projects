@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:rick_and_morty/core/app_constants.dart';
 import 'package:rick_and_morty/features/character/data/remote/character_model.dart';
 import 'package:rick_and_morty/features/character/data/remote/character_service.dart';
 import 'package:rick_and_morty/features/character/presentation/pages/character_detail_page.dart';
@@ -12,38 +14,54 @@ class CharacterListPage extends StatefulWidget {
 }
 
 class _CharacterListPageState extends State<CharacterListPage> {
-  List<CharacterModel> _characters = [];
+  final PagingController<int, CharacterModel> _pagingController =
+      PagingController(firstPageKey: AppConstants.initialPage);
 
-  Future<void> _loadData() async {
-    List<CharacterModel> characters = await CharacterService().getCharacters();
-    setState(() {
-      _characters = characters;
-    });
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems = await CharacterService().getCharacters(pageKey);
+      final isLastPage = newItems.length < AppConstants.pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        _pagingController.appendPage(newItems, pageKey + 1);
+      }
+    } catch (e) {
+      _pagingController.error = e;
+    }
   }
 
   @override
   void initState() {
+    _pagingController.addPageRequestListener(
+      (pageKey) {
+        _fetchPage(pageKey);
+      },
+    );
     super.initState();
-    _loadData();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ListView.builder(
-        itemCount: _characters.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CharacterDetailPage(
-                          characterModel: _characters[index]),
-                    ));
-              },
-              child: CharacterListItem(characterModel: _characters[index]));
-        },
+      child: PagedGridView<int, CharacterModel>(
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate<CharacterModel>(
+          itemBuilder: (context, item, index) {
+            return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            CharacterDetailPage(characterModel: item),
+                      ));
+                },
+                child: CharacterListItem(characterModel: item));
+          },
+        ),
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       ),
     );
   }

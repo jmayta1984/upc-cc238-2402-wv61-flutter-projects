@@ -10,22 +10,29 @@ class CharacterListItem extends StatelessWidget {
     return Card(
       elevation: 4,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(characterModel.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-                IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.favorite_border))
+                Expanded(
+                    child: Text(
+                  characterModel.name,
+                  softWrap: false,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16),
+                )),
               ],
             ),
           ),
           Row(
-             children: [
+            children: [
               Padding(
-            padding: const EdgeInsets.only(bottom: 4, left: 4, right: 4),
+                padding: const EdgeInsets.only(bottom: 4, left: 4, right: 4),
                 child: ClipOval(
                   child: Hero(
                     tag: characterModel.id,
@@ -38,20 +45,22 @@ class CharacterListItem extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Text('Species: ${characterModel.species}'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Text('Status: ${characterModel.status}'),
-                    )
-                  ],
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Text(characterModel.species, softWrap: false, overflow: TextOverflow.ellipsis,),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Text(characterModel.status, softWrap: false, overflow: TextOverflow.ellipsis,),
+                      )
+                    ],
+                  ),
                 ),
               )
             ],

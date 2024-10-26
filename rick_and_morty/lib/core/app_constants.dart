@@ -4,5 +4,8 @@ class AppConstants {
 
   static const String character = '/character';
 
+  static const int pageSize = 20;
+
+  static const int initialPage = 1;
   
 }
