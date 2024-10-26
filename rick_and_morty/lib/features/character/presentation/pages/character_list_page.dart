@@ -43,26 +43,24 @@ class _CharacterListPageState extends State<CharacterListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: PagedGridView<int, CharacterModel>(
-        pagingController: _pagingController,
-        builderDelegate: PagedChildBuilderDelegate<CharacterModel>(
-          itemBuilder: (context, item, index) {
-            return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            CharacterDetailPage(characterModel: item),
-                      ));
-                },
-                child: CharacterListItem(characterModel: item));
-          },
-        ),
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+    return PagedGridView<int, CharacterModel>(
+      pagingController: _pagingController,
+      builderDelegate: PagedChildBuilderDelegate<CharacterModel>(
+        itemBuilder: (context, item, index) {
+          return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          CharacterDetailPage(characterModel: item),
+                    ));
+              },
+              child: CharacterListItem(characterModel: item));
+        },
       ),
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
     );
   }
 }
