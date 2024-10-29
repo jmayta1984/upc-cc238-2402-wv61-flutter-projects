@@ -1,33 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:rick_and_morty/features/character/data/remote/character_model.dart';
-import 'package:rick_and_morty/shared/data/local/favorite_dao.dart';
-import 'package:rick_and_morty/shared/data/local/favorite_model.dart';
+import 'package:rick_and_morty/features/character/domain/character.dart';
+
 
 class CharacterDetailPage extends StatefulWidget {
-  const CharacterDetailPage({super.key, required this.characterModel});
-  final CharacterModel characterModel;
+  const CharacterDetailPage(
+      {super.key,
+      required this.character,
+      required this.delete,
+      required this.insert});
+  final Character character;
+  final Function(int) delete;
+  final Function(Character) insert;
 
   @override
   State<CharacterDetailPage> createState() => _CharacterDetailPageState();
 }
 
 class _CharacterDetailPageState extends State<CharacterDetailPage> {
-  bool _isFavorite = false;
-
-  void _loadData() async {
-    bool isFavorite = await FavoriteDao().isFavorite(widget.characterModel.id);
-
-    setState(() {
-      _isFavorite = isFavorite;
-    });
-  }
-
-  @override
-  void initState() {
-    _loadData();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -41,12 +30,12 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
                 pinned: false,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Hero(
-                    tag: widget.characterModel.id,
+                    tag: widget.character.id,
                     child: Image.network(
                       height: height * 0.40,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      widget.characterModel.image,
+                      widget.character.image,
                     ),
                   ),
                 ),
@@ -55,25 +44,20 @@ class _CharacterDetailPageState extends State<CharacterDetailPage> {
           },
           body: Column(
             children: [
-              Text(widget.characterModel.name),
+              Text(widget.character.name),
               IconButton.outlined(
                   onPressed: () {
                     setState(() {
-                      _isFavorite = !_isFavorite;
+                      widget.character.isFavorite =
+                          !widget.character.isFavorite;
                     });
-                    _isFavorite
-                        ? FavoriteDao().insertFavorite(FavoriteModel(
-                            id: widget.characterModel.id,
-                            name: widget.characterModel.name,
-                            status: widget.characterModel.status,
-                            species: widget.characterModel.species,
-                            image: widget.characterModel.image))
-                        : FavoriteDao()
-                            .deleteFavorite(widget.characterModel.id);
+                    widget.character.isFavorite
+                        ?widget.insert(widget.character):widget.delete(widget.character.id);
                   },
                   icon: Icon(
                     Icons.favorite,
-                    color: _isFavorite ? Colors.red : Colors.grey,
+                    color:
+                        widget.character.isFavorite ? Colors.red : Colors.grey,
                   )),
             ],
           )),

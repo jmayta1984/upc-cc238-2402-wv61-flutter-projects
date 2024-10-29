@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rick_and_morty/features/character/data/remote/character_model.dart';
+import 'package:rick_and_morty/features/character/domain/character.dart';
+
 
 class CharacterListItem extends StatelessWidget {
-  const CharacterListItem({super.key, required this.characterModel});
-  final CharacterModel characterModel;
+  const CharacterListItem({super.key, required this.character});
+  final Character character;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class CharacterListItem extends StatelessWidget {
               children: [
                 Expanded(
                     child: Text(
-                  characterModel.name,
+                  character.name,
                   softWrap: false,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -35,9 +36,9 @@ class CharacterListItem extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 4, left: 4, right: 4),
                 child: ClipOval(
                   child: Hero(
-                    tag: characterModel.id,
+                    tag: character.id,
                     child: Image.network(
-                      characterModel.image,
+                      character.image,
                       width: 96,
                       height: 96,
                       fit: BoxFit.cover,
@@ -53,11 +54,11 @@ class CharacterListItem extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: Text(characterModel.species, softWrap: false, overflow: TextOverflow.ellipsis,),
+                        child: Text(character.species, softWrap: false, overflow: TextOverflow.ellipsis,),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: Text(characterModel.status, softWrap: false, overflow: TextOverflow.ellipsis,),
+                        child: Text(character.status, softWrap: false, overflow: TextOverflow.ellipsis,),
                       )
                     ],
                   ),

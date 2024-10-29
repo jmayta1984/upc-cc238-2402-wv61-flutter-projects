@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:rick_and_morty/core/app_constants.dart';
-import 'package:rick_and_morty/features/character/data/remote/character_model.dart';
-import 'package:rick_and_morty/features/character/data/remote/character_service.dart';
+import 'package:rick_and_morty/features/character/data/repository/character_repository.dart';
+import 'package:rick_and_morty/features/character/domain/character.dart';
 import 'package:rick_and_morty/features/character/presentation/pages/character_detail_page.dart';
 import 'package:rick_and_morty/features/character/presentation/widgets/character_list_item.dart';
 
 class CharacterListPage extends StatefulWidget {
-  const CharacterListPage({super.key});
+  const CharacterListPage({super.key, required this.characterRepository});
+  final CharacterRepository characterRepository;
 
   @override
   State<CharacterListPage> createState() => _CharacterListPageState();
 }
 
 class _CharacterListPageState extends State<CharacterListPage> {
-  final PagingController<int, CharacterModel> _pagingController =
+  final PagingController<int, Character> _pagingController =
       PagingController(firstPageKey: AppConstants.initialPage);
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await CharacterService().getCharacters(pageKey);
+      final newItems = await widget.characterRepository.getCharacters(pageKey);
       final isLastPage = newItems.length < AppConstants.pageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -43,9 +44,9 @@ class _CharacterListPageState extends State<CharacterListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PagedGridView<int, CharacterModel>(
+    return PagedGridView<int, Character>(
       pagingController: _pagingController,
-      builderDelegate: PagedChildBuilderDelegate<CharacterModel>(
+      builderDelegate: PagedChildBuilderDelegate<Character>(
         itemBuilder: (context, item, index) {
           return GestureDetector(
               onTap: () {
@@ -53,10 +54,14 @@ class _CharacterListPageState extends State<CharacterListPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          CharacterDetailPage(characterModel: item),
+                          CharacterDetailPage(character: item, delete: (id) {
+                            widget.characterRepository.delete( id);
+                          }, insert: (character) {
+                            widget.characterRepository.insert(character);
+                          },),
                     ));
               },
-              child: CharacterListItem(characterModel: item));
+              child: CharacterListItem(character: item));
         },
       ),
       gridDelegate:

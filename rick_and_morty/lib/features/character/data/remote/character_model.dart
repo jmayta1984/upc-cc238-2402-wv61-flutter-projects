@@ -16,12 +16,12 @@ class CharacterModel {
 
   factory CharacterModel.fromJson(Map<String, dynamic> json) {
     return CharacterModel(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
-      image: json['image'] ?? '',
-      status: json['status'] ?? '',
-      species: json['species'] ?? '',
-      gender: json['gender'] ?? ''
-    );
+        id: json['id'] ?? 0,
+        name: json['name'] ?? '',
+        image: json['image'] ?? '',
+        status: json['status'] ?? '',
+        species: json['species'] ?? '',
+        gender: json['gender'] ?? '');
   }
 }
+
