@@ -1,3 +1,6 @@
+import 'package:movie_app/core/app_constants.dart';
+import 'package:movie_app/features/movies/domain/movie.dart';
+
 class MovieDto {
   final int id;
   final String title;
@@ -22,10 +25,21 @@ class MovieDto {
       id: json['id'] ?? 0,
       title: json['title'] ?? '',
       overview: json['overview'] ?? '',
-      releaseDate: json['release_date'] ??  '',
+      releaseDate: json['release_date'] ?? '',
       posterPath: json['poster_path'] ?? '',
       voteAverage: json['vote_average'].toDouble() ?? 0.0,
       genreIds: json['genres_id'] ?? [],
+    );
+  }
+
+  Movie toMovie() {
+    return Movie(
+      id: id,
+      title: title,
+      overview: overview,
+      releaseDate: releaseDate,
+      posterPath: AppConstants.imageBaseUrl + posterPath,
+      voteAverage: voteAverage,
     );
   }
 }
