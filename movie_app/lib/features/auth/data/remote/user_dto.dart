@@ -1,3 +1,5 @@
+import 'package:movie_app/features/auth/domain/user.dart';
+
 class UserDto {
   final int id;
   final String username;
@@ -33,5 +35,9 @@ class UserDto {
       accessToken: json['accessToken'] ?? '',
       refreshToken: json['refreshToken'] ?? '',
     );
+  }
+
+  User toUser() {
+    return User(id: id, firstName: firstName, lastName: lastName);
   }
 }
