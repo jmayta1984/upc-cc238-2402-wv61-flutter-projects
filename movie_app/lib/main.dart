@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       darkTheme: ThemeData.dark(),
       theme: ThemeData.light(),
-      home: LoginPage(),
+      home: const LoginPage(),
     );
   }
 }
