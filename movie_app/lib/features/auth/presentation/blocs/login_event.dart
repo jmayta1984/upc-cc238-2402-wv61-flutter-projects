@@ -8,3 +8,5 @@ class LoginSubmitted extends LoginEvent {
 
   const LoginSubmitted({required this.username, required this.password});
 }
+
+

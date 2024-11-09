@@ -6,16 +6,20 @@ import 'package:movie_app/features/auth/presentation/blocs/login_event.dart';
 import 'package:movie_app/features/auth/presentation/blocs/login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginInital()) {
+  LoginBloc() : super(LoginInitial()) {
     on<LoginSubmitted>(
       (event, emit) async {
         emit(LoginLoading());
-        Resource<User> result =
-            await AuthRepository().login(event.username, event.password);
-        if (result is Success) {
-          emit(LoginSuccess(user: result.data!));
-        } else {
-          emit(LoginError(message: result.message!));
+        try {
+          Resource<User> result =
+              await AuthRepository().login(event.username, event.password);
+          if (result is Success) {
+            emit(LoginSuccess(user: result.data!));
+          } else {
+            emit(LoginError(message: result.message!));
+          }
+        } catch (e) {
+          emit(const LoginError(message: 'An unexpected error occurred'));
         }
       },
     );

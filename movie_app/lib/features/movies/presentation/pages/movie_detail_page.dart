@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/features/movies/domain/movie.dart';
+import 'package:movie_app/features/movies/presentation/blocs/favorite_cubit.dart';
 
 class MovieDetailPage extends StatelessWidget {
   const MovieDetailPage({super.key, required this.movie});
@@ -10,50 +12,57 @@ class MovieDetailPage extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: SafeArea(
-          child: Stack(children: [
-            Image.network(
-              movie.backdropPath,
-              height: height * 0.60,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            Positioned(
-              top: 10,
-              right: 10,
-              child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.favorite_border_outlined,
-                    color: Colors.white,
-                  )),
-            ),
-            Positioned(
-              bottom: 10,
-              left: 10,
-              right: 10,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    movie.title,
-                    style: const TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            expandedHeight: height * 0.50,
+            floating: true,
+            pinned: true,
+            actions: [
+              BlocBuilder<FavoriteCubit, bool>(
+                builder: (context, state) => IconButton(
+                  onPressed: () {
+                    context.read<FavoriteCubit>().toggleFavorite();
+                  },
+                  icon: Icon(
+                    state ? Icons.bookmark : Icons.bookmark_border,
+                    color: Colors.yellow.shade700,
+                    size: 40,
                   ),
-                  Text(
-                    '${DateTime.parse(movie.releaseDate).year}',
-                    style:  const TextStyle(
-                      fontSize: 20,
-                      color: Colors.white70,
-                    ),
-                  ),
-                ],
+                ),
               ),
-            )
-          ])),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.network(
+                movie.posterPath,
+                height: height * 0.50,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+          )
+        ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${DateTime.parse(movie.releaseDate).year}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white70,
+                  ),
+                ),
+                Text(
+                  movie.overview,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

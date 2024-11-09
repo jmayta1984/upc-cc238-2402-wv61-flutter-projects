@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/features/auth/presentation/blocs/login_bloc.dart';
 import 'package:movie_app/features/auth/presentation/blocs/login_event.dart';
 import 'package:movie_app/features/auth/presentation/blocs/login_state.dart';
-import 'package:movie_app/features/movies/presentation/pages/movies_page.dart';
+import 'package:movie_app/features/auth/presentation/blocs/password_hidden_cubit.dart';
+import 'package:movie_app/shared/presentation/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,8 +18,6 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController _passwordController = TextEditingController();
 
-  bool _isPasswordHidden = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,14 +25,14 @@ class _LoginPageState extends State<LoginPage> {
         child: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state is LoginSuccess) {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MoviesPage(),
-                  ));
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(
                       'Welcome: ${state.user.firstName} ${state.user.lastName}')));
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  ));
             } else if (state is LoginError) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.message)));
@@ -55,23 +54,24 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  obscureText: _isPasswordHidden,
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.lock),
-                      border: const OutlineInputBorder(),
-                      label: const Text('Password'),
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _isPasswordHidden = !_isPasswordHidden;
-                            });
-                          },
-                          icon: Icon(_isPasswordHidden
-                              ? Icons.visibility
-                              : Icons.visibility_off))),
-                ),
+                child: BlocBuilder<PasswordHiddenCubit, bool>(
+                    builder: (context, isPasswordHidden) {
+                  return TextField(
+                    obscureText: isPasswordHidden,
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock),
+                        border: const OutlineInputBorder(),
+                        label: const Text('Password'),
+                        suffixIcon: IconButton(
+                            onPressed: () => context
+                                .read<PasswordHiddenCubit>()
+                                .togglePasswordVisibility(),
+                            icon: Icon(isPasswordHidden
+                                ? Icons.visibility_off
+                                : Icons.visibility))),
+                  );
+                }),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -91,5 +91,12 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

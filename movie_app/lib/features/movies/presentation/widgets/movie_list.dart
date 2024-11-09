@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movie_app/core/app_constants.dart';
 import 'package:movie_app/features/movies/data/remote/movie_service.dart';
 import 'package:movie_app/features/movies/data/repository/movie_repository.dart';
 import 'package:movie_app/features/movies/domain/movie.dart';
+import 'package:movie_app/features/movies/presentation/blocs/favorite_cubit.dart';
 import 'package:movie_app/features/movies/presentation/pages/movie_detail_page.dart';
 import 'package:movie_app/features/movies/presentation/widgets/movie_list_item.dart';
 
@@ -56,7 +58,9 @@ class _MovieListState extends State<MovieList> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MovieDetailPage(movie: item),
+                    builder: (context) => BlocProvider<FavoriteCubit>(
+                        create: (context) => FavoriteCubit(),
+                        child: MovieDetailPage(movie: item)),
                   ));
             },
             child: MovieListItem(movie: item)),
