@@ -16,4 +16,5 @@ class AppConstants {
   static const int pageSize = 20;
   static const int firstPage = 1;
   
+  static const String autBaseUrl = 'https://dummyjson.com/user/login';
 }
