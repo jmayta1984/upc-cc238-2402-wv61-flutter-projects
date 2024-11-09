@@ -1,19 +1,19 @@
-class Movie {
+class MovieDetail {
   final int id;
   final String title;
   final String overview;
   final String releaseDate;
   final String posterPath;
-  final String backdropPath;
   final double voteAverage;
+  final List<String> genres;
 
-  Movie({
+  MovieDetail({
     required this.id,
     required this.title,
     required this.overview,
     required this.releaseDate,
     required this.posterPath,
-    required this.backdropPath,
     required this.voteAverage,
+    required this.genres,
   });
 }

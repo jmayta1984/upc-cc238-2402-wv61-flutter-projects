@@ -7,6 +7,7 @@ class MovieDto {
   final String overview;
   final String releaseDate;
   final String posterPath;
+  final String backdropPath;
   final double voteAverage;
   final List<int> genreIds;
 
@@ -16,6 +17,7 @@ class MovieDto {
     required this.overview,
     required this.releaseDate,
     required this.posterPath,
+    required this.backdropPath,
     required this.voteAverage,
     required this.genreIds,
   });
@@ -27,6 +29,7 @@ class MovieDto {
       overview: json['overview'] ?? '',
       releaseDate: json['release_date'] ?? '',
       posterPath: json['poster_path'] ?? '',
+      backdropPath: json['backdrop_path'] ?? '',
       voteAverage: json['vote_average'].toDouble() ?? 0.0,
       genreIds: json['genres_id'] ?? [],
     );
@@ -39,6 +42,7 @@ class MovieDto {
       overview: overview,
       releaseDate: releaseDate,
       posterPath: AppConstants.imageBaseUrl + posterPath,
+      backdropPath: AppConstants.imageBaseUrl + backdropPath,
       voteAverage: voteAverage,
     );
   }

@@ -14,6 +14,7 @@ class MovieListItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           child: Image.network(
             movie.posterPath,
+            width: 190,
             height: 280,
             fit: BoxFit.cover,
           ),
