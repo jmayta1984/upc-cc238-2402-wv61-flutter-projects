@@ -1,8 +1,7 @@
-import 'package:movie_app/features/movies/data/remote/movie_detail_dto.dart';
+
 import 'package:movie_app/features/movies/data/remote/movie_dto.dart';
 import 'package:movie_app/features/movies/data/remote/movie_service.dart';
 import 'package:movie_app/features/movies/domain/movie.dart';
-import 'package:movie_app/features/movies/domain/movie_detail.dart';
 
 class MovieRepository {
   final MovieService movieService;
@@ -13,8 +12,5 @@ class MovieRepository {
     return moviesDto.map((movieDto) => movieDto.toMovie()).toList();
   }
 
-  Future<MovieDetail?> getMovieById(int id) async {
-    MovieDetailDto? movieDetailDto = await movieService.getMovieById(id);
-    return movieDetailDto?.toMovieDetail();
-  }
+ 
 }
