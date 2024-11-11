@@ -5,7 +5,7 @@ import 'package:movie_app/core/app_constants.dart';
 import 'package:movie_app/features/movies/data/remote/movie_service.dart';
 import 'package:movie_app/features/movies/data/repository/movie_repository.dart';
 import 'package:movie_app/features/movies/domain/movie.dart';
-import 'package:movie_app/features/movies/presentation/blocs/favorite_cubit.dart';
+import 'package:movie_app/features/movies/presentation/bloc/favorite_cubit.dart';
 import 'package:movie_app/features/movies/presentation/pages/movie_detail_page.dart';
 import 'package:movie_app/features/movies/presentation/widgets/movie_list_item.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/features/auth/presentation/blocs/login_bloc.dart';
-import 'package:movie_app/features/auth/presentation/blocs/login_event.dart';
-import 'package:movie_app/features/auth/presentation/blocs/login_state.dart';
-import 'package:movie_app/features/auth/presentation/blocs/password_hidden_cubit.dart';
+import 'package:movie_app/features/auth/presentation/bloc/login_bloc.dart';
+import 'package:movie_app/features/auth/presentation/bloc/login_event.dart';
+import 'package:movie_app/features/auth/presentation/bloc/login_state.dart';
+import 'package:movie_app/features/auth/presentation/bloc/password_hidden_cubit.dart';
 import 'package:movie_app/shared/presentation/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,7 +15,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
-
   final TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -57,6 +56,10 @@ class _LoginPageState extends State<LoginPage> {
                 child: BlocBuilder<PasswordHiddenCubit, bool>(
                     builder: (context, isPasswordHidden) {
                   return TextField(
+                    onSubmitted: (_) => context.read<LoginBloc>().add(
+                        LoginSubmitted(
+                            username: _usernameController.text,
+                            password: _passwordController.text)),
                     obscureText: isPasswordHidden,
                     controller: _passwordController,
                     decoration: InputDecoration(

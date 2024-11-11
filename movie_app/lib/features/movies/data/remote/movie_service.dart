@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:movie_app/core/app_constants.dart';
-
 import 'package:movie_app/features/movies/data/remote/movie_dto.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,6 +23,5 @@ class MovieService {
       return [];
     }
   }
-
   
 }

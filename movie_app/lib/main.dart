@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/features/auth/presentation/blocs/login_bloc.dart';
-import 'package:movie_app/features/auth/presentation/blocs/password_hidden_cubit.dart';
+import 'package:movie_app/features/auth/presentation/bloc/login_bloc.dart';
+import 'package:movie_app/features/auth/presentation/bloc/password_hidden_cubit.dart';
 import 'package:movie_app/features/auth/presentation/pages/login_page.dart';
 
 void main() {
@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
         BlocProvider<LoginBloc>(
           create: (context) => LoginBloc(),
         ),
-         BlocProvider<PasswordHiddenCubit>(
+        BlocProvider<PasswordHiddenCubit>(
           create: (context) => PasswordHiddenCubit(),
         ),
       ],

@@ -13,16 +13,20 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = const [
     MoviesPage(),
     Text('Series'),
-    Text('Favorites')
+    Text('Favorites'),
+    Text('Favorites'),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Movies'),
           BottomNavigationBarItem(icon: Icon(Icons.tv), label: 'Series'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: 'Favorites'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
         currentIndex: _index,
         onTap: (value) {
