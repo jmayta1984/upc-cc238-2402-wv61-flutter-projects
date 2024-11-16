@@ -59,7 +59,7 @@ class _MovieListState extends State<MovieList> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => BlocProvider<FavoriteCubit>(
-                        create: (context) => FavoriteCubit(),
+                        create: (context) => FavoriteCubit(item),
                         child: MovieDetailPage(movie: item)),
                   ));
             },

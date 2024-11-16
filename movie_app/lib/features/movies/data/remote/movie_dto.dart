@@ -44,6 +44,7 @@ class MovieDto {
       posterPath: AppConstants.imageBaseUrl + posterPath,
       backdropPath: AppConstants.imageBaseUrl + backdropPath,
       voteAverage: voteAverage,
+      isFavorite: false
     );
   }
 }

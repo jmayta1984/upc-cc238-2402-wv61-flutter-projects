@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/features/favorites/presentation/pages/favorite_list_page.dart';
 import 'package:movie_app/features/movies/presentation/pages/movies_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,8 +14,8 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = const [
     MoviesPage(),
     Text('Series'),
-    Text('Favorites'),
-    Text('Favorites'),
+    FavoriteListPage(),
+    Text('Profile'),
   ];
   @override
   Widget build(BuildContext context) {

@@ -19,6 +19,13 @@ class CastListItem extends StatelessWidget {
               width: 100,
               height: 130,
               fit: BoxFit.cover,
+              errorBuilder:(context, error, stackTrace) => const SizedBox(
+                width: 100,
+                height: 130,
+                child: Center(
+                  child: Icon(Icons.person),
+                ),
+              ),
             ),
           ),
           Text(

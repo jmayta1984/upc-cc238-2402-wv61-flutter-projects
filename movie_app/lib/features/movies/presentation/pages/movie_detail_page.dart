@@ -21,7 +21,7 @@ class MovieDetailPage extends StatelessWidget {
             floating: true,
             pinned: true,
             actions: [
-              BlocBuilder<FavoriteCubit, bool>(
+              BlocBuilder<FavoriteCubit, Movie>(
                 builder: (context, state) => Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: Container(
@@ -32,7 +32,7 @@ class MovieDetailPage extends StatelessWidget {
                         context.read<FavoriteCubit>().toggleFavorite();
                       },
                       icon: Icon(
-                        state ? Icons.favorite : Icons.favorite_border,
+                        state.isFavorite ? Icons.favorite : Icons.favorite_border,
                         color: Colors.yellow.shade800,
                         size: 30,
                       ),
